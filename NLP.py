@@ -8,7 +8,7 @@ from itertools import combinations
 mecab = Mecab()
 
 # CSV 불러오기
-df = pd.read_csv("sns_posts_cleaned.csv", encoding="utf-8-sig")
+df = pd.read_csv("merged.csv", encoding="utf-8-sig")
 
 # ------------------------------------------
 # STOPWORDS

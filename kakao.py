@@ -13,16 +13,8 @@ headers = {
     "Authorization": f"KakaoAK {REST_API_KEY}"
 }
 
-# -----------------------------
-# 1. CSV 읽기
-# -----------------------------
-
 filtered_df = pd.read_csv("filtered_places.csv", encoding="utf-8-sig")
 places = filtered_df["place_name"].tolist()
-
-# -----------------------------
-# 2. 결과 담을 리스트
-# -----------------------------
 
 results = []
 

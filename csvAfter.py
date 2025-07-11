@@ -48,12 +48,12 @@ def clean_text(text):
 
     return text
 
-df = pd.read_csv("sns_posts.csv", encoding="utf-8-sig")
+df = pd.read_csv("sns_posts2.csv", encoding="utf-8-sig")
 
 df["content_cleaned"] = df["content"].apply(clean_text)
 
 df = df.drop(columns=["content"])
 
-new_filename = "sns_posts_cleaned.csv"
+new_filename = "sns_posts_cleaned2.csv"
 
 df.to_csv(new_filename, index=False, encoding="utf-8-sig")
