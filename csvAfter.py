@@ -39,7 +39,7 @@ def clean_text(text):
     # 메뉴 제거
     text = re.sub(r"메뉴\s*:[^\n]+", "", text)
 
-    # 번호 + 점 제거 (선택사항)
+    # 번호 + 점 제거
     text = re.sub(r"^\d+\.\s*", "", text, flags=re.MULTILINE)
 
     # 연속 공백 제거

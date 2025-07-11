@@ -4,7 +4,7 @@ from shapely.geometry import Point
 import folium
 
 # ----------------------------------------
-# ✅ 데이터 불러오기
+# 데이터 불러오기
 # ----------------------------------------
 
 # 좌표 데이터
@@ -52,7 +52,7 @@ geometry = [Point(float(x), float(y)) for x, y in zip(merged_df["longitude"], me
 all_points_gdf = gpd.GeoDataFrame(merged_df, geometry=geometry, crs="EPSG:4326")
 
 # ----------------------------------------
-# ✅ 읍면동 SHP
+# 읍면동 SHP
 # ----------------------------------------
 
 shp_path = "LSMD_ADM_SECT_UMD_50_202506.shp"
@@ -60,7 +60,7 @@ jeju_gdf = gpd.read_file(shp_path)
 jeju_gdf = jeju_gdf.to_crs(epsg=4326)
 
 # ----------------------------------------
-# ✅ choropleth + markers → 하나의 FeatureGroup
+# choropleth + markers → 하나의 FeatureGroup
 # ----------------------------------------
 
 def create_category_layer(category, gdf_points, gdf_boundary):
@@ -120,7 +120,7 @@ def create_category_layer(category, gdf_points, gdf_boundary):
         )
     )
 
-    # FeatureGroup 생성 (✅ show=False 로 초기 비활성화)
+    # FeatureGroup 생성 
     group = folium.FeatureGroup(name=category, show=False)
     geojson.add_to(group)
 
@@ -148,7 +148,7 @@ def create_category_layer(category, gdf_points, gdf_boundary):
     return group
 
 # ----------------------------------------
-# ✅ 지도 생성
+# 지도 생성
 # ----------------------------------------
 
 m = folium.Map(location=[33.3617, 126.5292], zoom_start=10)
@@ -163,4 +163,4 @@ folium.LayerControl(collapsed=False).add_to(m)
 
 m.save("hotplace_map.html")
 
-print("✅ hotplace_map.html 저장 완료!")
+print("hotplace_map.html 저장 완료")

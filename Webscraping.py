@@ -13,7 +13,7 @@ ad_keywords = [
     "내돈내산", "광고"
 ]
 
-# ✅ 수집할 검색어 리스트
+# 수집할 검색어 리스트
 search_keywords = ["제주도 숨은", "제주 핫플"]
 
 # Selenium 옵션 설정
@@ -135,4 +135,4 @@ driver.quit()
 # 저장
 df = pd.DataFrame(all_data)
 df.to_csv("sns_posts.csv", index=False, encoding="utf-8-sig")
-print("\n✅ 크롤링 완료. sns_posts.csv 저장되었습니다.")
+print("\n크롤링 완료. sns_posts.csv 저장완료")

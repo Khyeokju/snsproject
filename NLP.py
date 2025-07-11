@@ -11,7 +11,7 @@ mecab = Mecab()
 df = pd.read_csv("sns_posts_cleaned.csv", encoding="utf-8-sig")
 
 # ------------------------------------------
-# ✅ STOPWORDS
+# STOPWORDS
 # ------------------------------------------
 stopwords = set([
     "제주도","제주특별자치도","서귀포","서귀포시","맛집", "제주", "고기", "추천", "메뉴", "식사",
@@ -34,7 +34,7 @@ stopwords = set([
 
 
 # ------------------------------------------
-# ✅ 전체 명사 추출
+# 전체 명사 추출
 # ------------------------------------------
 all_nouns = []
 for text in df["content_cleaned"]:
@@ -49,7 +49,7 @@ filtered_nouns = [
 ]
 
 # ------------------------------------------
-# ✅ (1) 지명 추출
+# (1) 지명 추출
 # ------------------------------------------
 jeju_places = [
     "월정리", "협재", "성산일출봉", "한림", "애월", "이중섭거리",
@@ -80,7 +80,7 @@ for word, cnt in geo_counter.most_common():
     print(f"{word}: {cnt}")
 
 # ------------------------------------------
-# ✅ (2) 상호명 N-gram 추출
+# (2) 상호명 N-gram 추출
 # ------------------------------------------
 texts = df["content_cleaned"].fillna("").tolist()
 
@@ -107,7 +107,7 @@ for phrase, count in biz_candidates[:50]:
     print(f"{phrase}: {count}")
 
 # ------------------------------------------
-# ✅ (3) TF-IDF 상위 단어
+# (3) TF-IDF 상위 단어
 # ------------------------------------------
 vectorizer = TfidfVectorizer(
     tokenizer=mecab.nouns,
@@ -131,7 +131,7 @@ for word, score in tfidf_candidates[:50]:
     print(f"{word}: {score:.3f}")
 
 # ------------------------------------------
-# ✅ (4) 동시 출현 분석
+# (4) 동시 출현 분석
 # ------------------------------------------
 co_occurrence = Counter()
 
@@ -148,7 +148,7 @@ for pair, count in co_occurrence.most_common():
         print(pair, count)
 
 # ------------------------------------------
-# ✅ (5) 장소별 Top 키워드
+# (5) 장소별 Top 키워드
 # ------------------------------------------
 target_place = "소천지"
 texts_with_place = df[df["content_cleaned"].str.contains(target_place, na=False)]["content_cleaned"]
@@ -164,7 +164,7 @@ for word, count in place_counter.most_common(20):
     print(f"{word}: {count}")
 
 # ------------------------------------------
-# ✅ (6) 정규표현식 + 키워드 매칭으로 장소명 추출
+# (6) 정규표현식 + 키워드 매칭으로 장소명 추출
 # ------------------------------------------
 
 import re
@@ -219,11 +219,7 @@ for place in sorted(detected_places):
     print(place)
 
 # ------------------------------------------
-# ✅ (7) 후처리 필터링
-# ------------------------------------------
-
-# ------------------------------------------
-# ✅ (7) 후처리 필터링 (수정 버전)
+# (7) 후처리 필터링
 # ------------------------------------------
 
 # 제외할 패턴 키워드들 (단독어만 제외)
@@ -266,23 +262,21 @@ for place in filtered_places:
 filtered_df = pd.DataFrame(filtered_places, columns=["place_name"])
 filtered_df.to_csv("filtered_places.csv", index=False, encoding="utf-8-sig")
 
-print("\n✅ 필터링된 장소명이 filtered_places.csv로 저장되었습니다.")
+print("\n필터링된 장소명이 filtered_places.csv로 저장완료")
 
 
 # ------------------------------------------
-# ✅ (8) 워드클라우드 시각화
+# (8) 워드클라우드 시각화
 # ------------------------------------------
 
 from wordcloud import WordCloud
 import matplotlib.pyplot as plt
 
-# 워드클라우드용 데이터 만들기
-# (전체 빈도 기반 워드클라우드)
 word_freq = {noun: count for noun, count in filtered_nouns}
 
 # 워드클라우드 생성
 wc = WordCloud(
-    font_path="C:\\Windows\\Fonts\\malgun.ttf",  # Windows 기준 한글 폰트 경로
+    font_path="C:\\Windows\\Fonts\\malgun.ttf", 
     width=1200,
     height=600,
     background_color="white"
@@ -299,10 +293,10 @@ plt.show()
 
 # 파일로 저장
 wc.to_file("wordcloud_jeju.png")
-print("\n✅ 워드클라우드 이미지가 wordcloud_jeju.png로 저장되었습니다.")
+print("\n워드클라우드 이미지 wordcloud_jeju.png로 저장완료")
 
 # ------------------------------------------
-# ✅ (9) 모든 분석 결과를 CSV로 저장 (행 단위)
+# (9) 모든 분석 결과를 CSV로 저장 
 # ------------------------------------------
 
 import pandas as pd
@@ -345,4 +339,4 @@ result_df = pd.DataFrame(data, columns=["category", "result"])
 # CSV 저장
 result_df.to_csv("jeju_analysis_summary.csv", index=False, encoding="utf-8-sig")
 
-print("\n✅ 모든 분석 결과가 jeju_analysis_summary.csv 로 저장되었습니다. (행 단위)")
+print("\n모든 분석 결과 jeju_analysis_summary.csv 로 저장완료")

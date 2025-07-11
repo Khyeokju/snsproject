@@ -1,6 +1,17 @@
 import requests
 import pandas as pd
 import time
+from dotenv import load_dotenv
+import os
+
+load_dotenv()
+REST_API_KEY = os.getenv("KAKAO_REST_API_KEY")
+
+url = "https://dapi.kakao.com/v2/local/search/keyword.json"
+
+headers = {
+    "Authorization": f"KakaoAK {REST_API_KEY}"
+}
 
 # -----------------------------
 # 1. CSV 읽기
@@ -10,19 +21,7 @@ filtered_df = pd.read_csv("filtered_places.csv", encoding="utf-8-sig")
 places = filtered_df["place_name"].tolist()
 
 # -----------------------------
-# 2. 카카오 API 세팅
-# -----------------------------
-
-REST_API_KEY = "bcc4ef0110cd80c42019817f19f534dd"
-
-url = "https://dapi.kakao.com/v2/local/search/keyword.json"
-
-headers = {
-    "Authorization": f"KakaoAK {REST_API_KEY}"
-}
-
-# -----------------------------
-# 3. 결과 담을 리스트
+# 2. 결과 담을 리스트
 # -----------------------------
 
 results = []
@@ -44,7 +43,7 @@ for place in places:
         addr = doc["road_address_name"]
         lat = doc["y"]
         lon = doc["x"]
-        category = doc.get("category_group_name", "")  # ← 추가
+        category = doc.get("category_group_name", "")
         print(f"{name}: lat={lat}, lon={lon}, category={category}")
     else:
         name = place
@@ -53,9 +52,8 @@ for place in places:
         lon = "NA"
         category = ""
         print(f"❌ {place}: 좌표 없음")
-    
+
     if not category:
-        # 카테고리 수동 매핑
         if any(x in name for x in ["포구"]):
             category = "항구"
         elif any(x in name for x in ["마을", "공원"]):
@@ -77,13 +75,7 @@ for place in places:
     
     time.sleep(0.5)
 
-
-
-# -----------------------------
-# 4. DataFrame으로 저장
-# -----------------------------
-
 final_df = pd.DataFrame(results)
 final_df.to_csv("place_coords_updated.csv", index=False, encoding="utf-8-sig")
 
-print("\n✅ place_coords_updated.csv 저장 완료!")
+print("\nplace_coords_updated.csv 저장 완료")
